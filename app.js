@@ -53,6 +53,51 @@ app.post('/restaurants', (req, res) => {
     .catch(err => console.log(err))
 })
 
+// page of edit restaurant
+app.get("/restaurants/:restaurantId/edit", (req, res) => {
+  const { restaurantId } = req.params
+  Restaurant.findById(restaurantId)
+    .lean()
+    .then(restaurantData => res.render("edit", { restaurantData }))
+    .catch(err => console.log(err))
+})
+
+// edit restaurant
+app.post("/restaurants/:restaurantId/edit", (req, res) => {
+  const { restaurantId } = req.params
+  const name = req.body.name
+  const category = req.body.category
+  const image = req.body.image
+  const location = req.body.location
+  const phone = req.body.phone
+  const google_map = req.body.google_map
+  const rating = req.body.rating
+  const description = req.body.description
+  return Restaurant.findById(restaurantId)
+    .then(restaurantData => {
+      restaurantData.name = name
+      restaurantData.category = category
+      restaurantData.image = image
+      restaurantData.location = location
+      restaurantData.phone = phone
+      restaurantData.google_map = google_map
+      restaurantData.rating = rating
+      restaurantData.description = description
+      return restaurantData.save()
+    })
+    .then(() => res.redirect(`/restaurants/${restaurantId}`))
+    .catch(err => console.log(err))
+})
+
+// delete restaurant
+app.post("/restaurants/:restaurantId/delete", (req, res) => {
+  const { restaurantId } = req.params
+  return Restaurant.findById(restaurantId)
+    .then(restaurantData => restaurantData.remove())
+    .then(() => res.redirect("/"))
+    .catch(err => console.log(err))
+})
+
 // search function
 app.get('/search', (req, res) => {
   if (!req.query.keywords) {
