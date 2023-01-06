@@ -1,6 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const exphbs = require('express-handlebars')
+const bodyParser = require('body-parser')
 const Restaurant = require('./models/restaurant')
 
 // require dotenv if NODE_ENV is not production
@@ -8,11 +9,11 @@ if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
 
-const app = express()
-
 mongoose.set('strictQuery', true)
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+
 const db = mongoose.connection
+
 db.on('error', () => {
   console.log('mongodb error!')
 })
@@ -20,7 +21,10 @@ db.once('open', () => {
   console.log('mongodb connected!')
 })
 
+const app = express()
 const port = 3000
+
+app.use(bodyParser.urlencoded({ extended: true }))
 
 // setting template engine
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
@@ -33,12 +37,24 @@ app.use(express.static('public'))
 app.get('/', (req, res) => {
   Restaurant.find() //get all the data from the Restaurant model
     .lean() //return data from the mongoose model to JavaScript objects
-    .then(restaurants => res.render('index', { restaurants })) 
+    .then(restaurantData => res.render('index', { restaurantData })) 
     .catch(error => console.error(error))
 })
 
+// page of add restaurant
+app.get('/restaurants/new', (req, res) => {
+  return res.render('new')
+})
+
+// add restaurant
+app.post('/restaurants', (req, res) => {
+  Restaurant.create(req.body)
+    .then(() => res.redirect('/'))
+    .catch(err => console.log(err))
+})
+
 // search function
-app.get("/search", (req, res) => {
+app.get('/search', (req, res) => {
   if (!req.query.keywords) {
     return res.redirect("/")
   }
@@ -50,19 +66,19 @@ app.get("/search", (req, res) => {
       data.category.toLowerCase().includes(keyword)
   )
   if (filterRestaurantsData.length === 0) {
-    res.render("no_result", { restaurantsData: filterRestaurantsData, keywords })
+    res.render('no_result', { restaurantsData: filterRestaurantsData, keywords })
     return
   }
-  res.render("index", { restaurantsData: filterRestaurantsData, keywords })
+  res.render('index', { restaurantsData: filterRestaurantsData, keywords })
 })
 
 // restaurant details
-app.get("/restaurants/:restaurantId", (req, res) => {
+app.get('/restaurants/:restaurantId', (req, res) => {
   const { restaurantId } = req.params
-  const restaurantData = restaurantsData.find(
-    data => data.id === Number(restaurantId)
-  )
-  res.render("show", { restaurantData })
+  Restaurant.findById(restaurantId)
+    .lean()
+    .then(restaurantData => res.render('detail', { restaurantData }))
+    .catch(err => console.log(err))
 })
 
 // start and listen on the Express server
