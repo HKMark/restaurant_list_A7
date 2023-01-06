@@ -19,7 +19,7 @@
 - [Express](https://www.npmjs.com/package/express)
 - [Express-Handlebars](https://www.npmjs.com/package/express-handlebars)
 - [Nodemon](https://www.npmjs.com/package/nodemon)
-- [Mongoose] (https://mongoosejs.com/)
+- [Mongoose](https://mongoosejs.com/)
 
 ## 安裝與執行步驟
 
