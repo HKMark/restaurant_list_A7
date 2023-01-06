@@ -37,7 +37,7 @@ app.use(express.static('public'))
 app.get('/', (req, res) => {
   Restaurant.find() //get all the data from the Restaurant model
     .lean() //return data from the mongoose model to JavaScript objects
-    .then(restaurantData => res.render('index', { restaurantData })) 
+    .then(restaurantsData => res.render('index', { restaurantsData })) 
     .catch(error => console.error(error))
 })
 
@@ -58,7 +58,7 @@ app.get("/restaurants/:restaurantId/edit", (req, res) => {
   const { restaurantId } = req.params
   Restaurant.findById(restaurantId)
     .lean()
-    .then(restaurantData => res.render("edit", { restaurantData }))
+    .then(restaurantsData => res.render("edit", { restaurantsData }))
     .catch(err => console.log(err))
 })
 
@@ -74,16 +74,16 @@ app.post("/restaurants/:restaurantId/edit", (req, res) => {
   const rating = req.body.rating
   const description = req.body.description
   return Restaurant.findById(restaurantId)
-    .then(restaurantData => {
-      restaurantData.name = name
-      restaurantData.category = category
-      restaurantData.image = image
-      restaurantData.location = location
-      restaurantData.phone = phone
-      restaurantData.google_map = google_map
-      restaurantData.rating = rating
-      restaurantData.description = description
-      return restaurantData.save()
+    .then(restaurantsData => {
+      restaurantsData.name = name
+      restaurantsData.category = category
+      restaurantsData.image = image
+      restaurantsData.location = location
+      restaurantsData.phone = phone
+      restaurantsData.google_map = google_map
+      restaurantsData.rating = rating
+      restaurantsData.description = description
+      return restaurantsData.save()
     })
     .then(() => res.redirect(`/restaurants/${restaurantId}`))
     .catch(err => console.log(err))
@@ -93,7 +93,7 @@ app.post("/restaurants/:restaurantId/edit", (req, res) => {
 app.post("/restaurants/:restaurantId/delete", (req, res) => {
   const { restaurantId } = req.params
   return Restaurant.findById(restaurantId)
-    .then(restaurantData => restaurantData.remove())
+    .then(restaurantsData => restaurantsData.remove())
     .then(() => res.redirect("/"))
     .catch(err => console.log(err))
 })
@@ -105,16 +105,21 @@ app.get('/search', (req, res) => {
   }
   const keywords = req.query.keywords
   const keyword = req.query.keywords.trim().toLowerCase()
-  const filterRestaurantsData = restaurantsData.filter(
-    data =>
-      data.name.toLowerCase().includes(keyword) ||
-      data.category.toLowerCase().includes(keyword)
-  )
-  if (filterRestaurantsData.length === 0) {
-    res.render('no_result', { restaurantsData: filterRestaurantsData, keywords })
-    return
-  }
-  res.render('index', { restaurantsData: filterRestaurantsData, keywords })
+  Restaurant.find({})
+    .lean()
+    .then(restaurantsData => {
+      const filterRestaurantsData = restaurantsData.filter(
+        data =>
+          data.name.toLowerCase().includes(keyword) ||
+          data.category.toLowerCase().includes(keyword)
+      )
+      if (filterRestaurantsData.length === 0) {
+        res.render('no_result', { restaurantsData: filterRestaurantsData, keywords })
+        return
+      }
+      res.render('index', { restaurantsData: filterRestaurantsData, keywords })
+    })
+    .catch(err => console.log(err))
 })
 
 // restaurant details
@@ -122,7 +127,7 @@ app.get('/restaurants/:restaurantId', (req, res) => {
   const { restaurantId } = req.params
   Restaurant.findById(restaurantId)
     .lean()
-    .then(restaurantData => res.render('detail', { restaurantData }))
+    .then(restaurantsData => res.render('detail', { restaurantsData }))
     .catch(err => console.log(err))
 })
 
