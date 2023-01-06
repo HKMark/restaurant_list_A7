@@ -19,6 +19,7 @@
 - [Express](https://www.npmjs.com/package/express)
 - [Express-Handlebars](https://www.npmjs.com/package/express-handlebars)
 - [Nodemon](https://www.npmjs.com/package/nodemon)
+- [Mongoose] (https://mongoosejs.com/)
 
 ## 安裝與執行步驟
 
@@ -37,7 +38,7 @@ cd restaurant_list
 3. 安裝 npm 套件
 
 ```
-npm install express@4.16.4
+npm init -y
 ```
 
 4. 安裝 Express 套件
@@ -70,7 +71,13 @@ npm install body-parser
 npm run seed
 ```
 
-9. 啟動伺服器
+9. 安裝 Mongoose 套件及設定你的 MongoDB 連接
+
+```
+npm i mongoose@5.9.7
+```
+
+10. 啟動伺服器
 ```
 npm run dev
 ```
