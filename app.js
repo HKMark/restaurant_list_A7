@@ -3,8 +3,6 @@ const mongoose = require('mongoose')
 const exphbs = require('express-handlebars')
 const Restaurant = require('./models/restaurant')
 
-// const restaurantsData = require("./restaurant.json").results
-
 // require dotenv if NODE_ENV is not production
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
