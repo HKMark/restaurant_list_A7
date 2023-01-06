@@ -9,6 +9,9 @@
 - 查看餐廳
 - 點擊以查詢餐廳的詳細資料 
 - 使用相關文字搜尋特定餐廳，可輸入餐廳名稱及類型
+- 可以新增餐廳
+- 可以修改餐廳的資訊
+- 可以刪除餐廳
 
 ## 環境建置與需求
 - [Node.js](https://nodejs.org/en/)
@@ -55,7 +58,19 @@ npm i express-handlebars@3.0.0
 npm install -g nodemon
 ```
 
-7. 啟動伺服器
+7. 安裝 body-parser 套件
+
+```
+npm install body-parser
+```
+
+8. 載入種子資料
+
+```
+npm run seed
+```
+
+9. 啟動伺服器
 ```
 npm run dev
 ```
