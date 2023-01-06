@@ -1,8 +1,9 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const exphbs = require('express-handlebars')
+const Restaurant = require('./models/restaurant')
 
-const restaurantsData = require("./restaurant.json").results
+// const restaurantsData = require("./restaurant.json").results
 
 // require dotenv if NODE_ENV is not production
 if (process.env.NODE_ENV !== 'production') {
@@ -31,8 +32,11 @@ app.set('view engine', 'handlebars')
 app.use(express.static('public'))
 
 // routes setting
-app.get("/", (req, res) => {
-  res.render("index", { restaurantsData })
+app.get('/', (req, res) => {
+  Restaurant.find() //get all the data from the Restaurant model
+    .lean() //return data from the mongoose model to JavaScript objects
+    .then(restaurants => res.render('index', { restaurants })) 
+    .catch(error => console.error(error))
 })
 
 // search function
