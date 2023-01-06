@@ -65,16 +65,16 @@ npm install -g nodemon
 npm install body-parser
 ```
 
-8. 載入種子資料
-
-```
-npm run seed
-```
-
-9. 安裝 Mongoose 套件及設定你的 MongoDB 連接
+8. 安裝 Mongoose 套件及設定你的 MongoDB 連接
 
 ```
 npm i mongoose@5.9.7
+```
+
+9. 載入種子資料
+
+```
+npm run seed
 ```
 
 10. 啟動伺服器
