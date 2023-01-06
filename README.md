@@ -12,6 +12,8 @@
 - 修改餐廳的資訊
 - 刪除餐廳
 
+
+
 ## 環境建置與需求
 - [Node.js](https://nodejs.org/en/)
 - [Node Package Manager](https://www.npmjs.com/)
@@ -19,6 +21,8 @@
 - [Express-Handlebars](https://www.npmjs.com/package/express-handlebars)
 - [Nodemon](https://www.npmjs.com/package/nodemon)
 - [Mongoose](https://mongoosejs.com/)
+
+<img width="1352" alt="Screenshot 2023-01-07 at 03 20 03" src="https://user-images.githubusercontent.com/32502651/211086527-3a7b9f03-6c34-4dba-8713-85f02ff7e441.png">
 
 ## 安裝與執行步驟
 
