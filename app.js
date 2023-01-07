@@ -2,6 +2,8 @@ const express = require('express')
 const mongoose = require('mongoose')
 const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
+const methodOverride = require('method-override')
+
 const Restaurant = require('./models/restaurant')
 
 // require dotenv if NODE_ENV is not production
@@ -24,14 +26,16 @@ db.once('open', () => {
 const app = express()
 const port = 3000
 
-app.use(bodyParser.urlencoded({ extended: true }))
-
 // setting template engine
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
 
 // setting static files
 app.use(express.static('public'))
+
+app.use(bodyParser.urlencoded({ extended: true }))
+
+app.use(methodOverride('_method'))
 
 // routes setting
 app.get('/', (req, res) => {
@@ -63,7 +67,7 @@ app.get("/restaurants/:restaurantId/edit", (req, res) => {
 })
 
 // edit restaurant
-app.post("/restaurants/:restaurantId/edit", (req, res) => {
+app.put("/restaurants/:restaurantId", (req, res) => {
   const { restaurantId } = req.params
   const name = req.body.name
   const category = req.body.category
@@ -90,7 +94,7 @@ app.post("/restaurants/:restaurantId/edit", (req, res) => {
 })
 
 // delete restaurant
-app.post("/restaurants/:restaurantId/delete", (req, res) => {
+app.delete("/restaurants/:restaurantId", (req, res) => {
   const { restaurantId } = req.params
   return Restaurant.findById(restaurantId)
     .then(restaurantsData => restaurantsData.remove())
