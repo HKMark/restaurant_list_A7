@@ -13,14 +13,19 @@
             <button class="btn btn-major" type="submit" id="search-button"><i class="fas fa-search"></i></button>
           </div>
 
-          <div class="input-group">
-            <select class="form-select" id="sort" name="sort">
-              <option>A > Z</option>
-              <option>Z > A</option>
-              <option>類別</option>
-              <option>地區</option>
-            </select>
-         </div>
+          <div class="dropdown">
+            <a class="btn btn-warning dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              排序方式
+            </a>
+          
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="/">預設排序</a></li>
+              <li><a class="dropdown-item" href="/name">A -> Z</a></li>
+              <li><a class="dropdown-item" href="/-name">Z -> A</a></li>
+              <li><a class="dropdown-item" href="/category">類別</a></li>
+              <li><a class="dropdown-item" href="/rating">高評分優先</a></li>
+            </ul>
+          </div>
        </div>
      </form>
    </div>
