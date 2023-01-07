@@ -11,6 +11,7 @@
 - 新增餐廳
 - 修改餐廳的資訊
 - 刪除餐廳
+- 餐廳排序功能
 
 ## 環境建置與需求
 - [Node.js](https://nodejs.org/en/)
@@ -19,6 +20,8 @@
 - [Express-Handlebars](https://www.npmjs.com/package/express-handlebars)
 - [Nodemon](https://www.npmjs.com/package/nodemon)
 - [Mongoose](https://mongoosejs.com/)
+
+<img width="1257" alt="Screenshot 2023-01-08 at 00 11 31" src="https://user-images.githubusercontent.com/32502651/211160051-e482a5fb-653e-4b5a-8e6a-64fdff1304e0.png">
 
 ## 安裝與執行步驟
 
