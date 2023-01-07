@@ -1,4 +1,5 @@
 const express = require('express')
+const restaurant = require('../../models/restaurant')
 const router = express.Router()
 const Restaurant = require('../../models/restaurant')
 
@@ -35,26 +36,27 @@ router.get("/:restaurantId/edit", (req, res) => {
 // edit restaurant
 router.put("/:restaurantId", (req, res) => {
   const { restaurantId } = req.params
-  const name = req.body.name
-  const category = req.body.category
-  const image = req.body.image
-  const location = req.body.location
-  const phone = req.body.phone
-  const google_map = req.body.google_map
-  const rating = req.body.rating
-  const description = req.body.description
-  return Restaurant.findById(restaurantId)
-    .then(restaurantsData => {
-      restaurantsData.name = name
-      restaurantsData.category = category
-      restaurantsData.image = image
-      restaurantsData.location = location
-      restaurantsData.phone = phone
-      restaurantsData.google_map = google_map
-      restaurantsData.rating = rating
-      restaurantsData.description = description
-      return restaurantsData.save()
-    })
+  Restaurant.findByIdAndUpdate(restaurantId, req.body)
+  // const name = req.body.name
+  // const category = req.body.category
+  // const image = req.body.image
+  // const location = req.body.location
+  // const phone = req.body.phone
+  // const google_map = req.body.google_map
+  // const rating = req.body.rating
+  // const description = req.body.description
+  // return Restaurant.findById(restaurantId)
+  //   .then(restaurantsData => {
+  //     restaurantsData.name = name
+  //     restaurantsData.category = category
+  //     restaurantsData.image = image
+  //     restaurantsData.location = location
+  //     restaurantsData.phone = phone
+  //     restaurantsData.google_map = google_map
+  //     restaurantsData.rating = rating
+  //     restaurantsData.description = description
+  //     return restaurantsData.save()
+  //   })
     .then(() => res.redirect(`/restaurants/${restaurantId}`))
     .catch(err => console.log(err))
 })
@@ -62,8 +64,9 @@ router.put("/:restaurantId", (req, res) => {
 // delete restaurant
 router.delete("/:restaurantId", (req, res) => {
   const { restaurantId } = req.params
-  return Restaurant.findById(restaurantId)
-    .then(restaurantsData => restaurantsData.remove())
+  Restaurant.findByIdAndDelete(restaurantId)
+  // return Restaurant.findById(restaurantId)
+  //   .then(restaurantsData => restaurantsData.remove())
     .then(() => res.redirect("/"))
     .catch(err => console.log(err))
 })

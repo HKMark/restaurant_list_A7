@@ -4,8 +4,8 @@ const Restaurant = require('../../models/restaurant')
 
 // routes setting
 router.get('/', (req, res) => {
-  Restaurant.find() //get all the data from the Restaurant model
-    .lean() //return data from the mongoose model to JavaScript objects
+  Restaurant.find()
+    .lean()
     .then(restaurantsData => res.render('index', { restaurantsData }))
     .catch(error => console.error(error))
 })
