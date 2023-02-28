@@ -13,6 +13,10 @@
 - 刪除餐廳
 - 餐廳排序功能
 
+2023/03/01更新：
+
+- 建立帳戶功能
+
 ## 環境建置與需求
 - [Node.js](https://nodejs.org/en/)
 - [Node Package Manager](https://www.npmjs.com/)
@@ -43,43 +47,21 @@ cd restaurant_list
 npm install express@4.16.4
 ```
 
-4. 安裝 Express 套件
+4. 安裝專案相關套件
 
 ```
-npm install express@4.18.2
+npm install
 ```
 
-5. 安裝 Handlebars 套件
+5. 設定你的 MongoDB 連接
 
-```
-npm i express-handlebars@3.0.0
-```
-
-6. 安裝 Nodemon 套件
-
-```
-npm install -g nodemon
-```
-
-7. 安裝 body-parser 套件
-
-```
-npm install body-parser
-```
-
-8. 安裝 Mongoose 套件及設定你的 MongoDB 連接
-
-```
-npm i mongoose@5.9.7
-```
-
-9. 載入種子資料
+6. 載入種子資料
 
 ```
 npm run seed
 ```
 
-10. 啟動伺服器
+7. 啟動伺服器
 ```
 npm run dev
 ```
