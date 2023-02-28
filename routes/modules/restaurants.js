@@ -10,63 +10,47 @@ router.get('/new', (req, res) => {
 
 // add restaurant
 router.post('/', (req, res) => {
-  return Restaurant.create(req.body)
+  const userId = req.user._id
+  const form = req.body
+  return Restaurant.create({ ...form, userId })
     .then(() => res.redirect('/'))
     .catch(err => console.log(err))
 })
 
 // restaurant details
-router.get('/:restaurantId', (req, res) => {
-  const { restaurantId } = req.params
-  return Restaurant.findById(restaurantId)
+router.get('/:id', (req, res) => {
+  const userId = req.user._id
+  const _id = req.params.id
+  return Restaurant.findOne({ _id, userId })
     .lean()
     .then(restaurantsData => res.render('detail', { restaurantsData }))
     .catch(err => console.log(err))
 })
 
 // page of edit restaurant
-router.get("/:restaurantId/edit", (req, res) => {
-  const { restaurantId } = req.params
-  return Restaurant.findById(restaurantId)
+router.get("/:id/edit", (req, res) => {
+  const userId = req.user._id
+  const _id = req.params.id
+  return Restaurant.findOne({ _id, userId })
     .lean()
     .then(restaurantsData => res.render("edit", { restaurantsData }))
     .catch(err => console.log(err))
 })
 
 // edit restaurant
-router.put("/:restaurantId", (req, res) => {
-  const { restaurantId } = req.params
-  Restaurant.findByIdAndUpdate(restaurantId, req.body)
-  // const name = req.body.name
-  // const category = req.body.category
-  // const image = req.body.image
-  // const location = req.body.location
-  // const phone = req.body.phone
-  // const google_map = req.body.google_map
-  // const rating = req.body.rating
-  // const description = req.body.description
-  // return Restaurant.findById(restaurantId)
-  //   .then(restaurantsData => {
-  //     restaurantsData.name = name
-  //     restaurantsData.category = category
-  //     restaurantsData.image = image
-  //     restaurantsData.location = location
-  //     restaurantsData.phone = phone
-  //     restaurantsData.google_map = google_map
-  //     restaurantsData.rating = rating
-  //     restaurantsData.description = description
-  //     return restaurantsData.save()
-  //   })
-    .then(() => res.redirect(`/restaurants/${restaurantId}`))
+router.put("/:id", (req, res) => {
+  const userId = req.user._id
+  const _id = req.params.id
+  Restaurant.findOneAndUpdate({ _id, userId }, req.body)
+    .then(() => res.redirect(`/restaurants/${_id}`))
     .catch(err => console.log(err))
 })
 
 // delete restaurant
-router.delete("/:restaurantId", (req, res) => {
-  const { restaurantId } = req.params
-  Restaurant.findByIdAndDelete(restaurantId)
-  // return Restaurant.findById(restaurantId)
-  //   .then(restaurantsData => restaurantsData.remove())
+router.delete("/:id", (req, res) => {
+  const userId = req.user._id
+  const _id = req.params.id
+  Restaurant.findByIdAndDelete({ _id, userId })
     .then(() => res.redirect("/"))
     .catch(err => console.log(err))
 })
